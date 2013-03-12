@@ -14,7 +14,7 @@ There isn't a good, performant vectorn, matrixn library for javascript. And I ne
 
 ## Example
 
-### delve
+### vatrix
 
 ```javascript
 var vatrix = require('vatrix')

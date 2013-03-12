@@ -1,0 +1,23 @@
+{
+  "name": "vatrix",
+  "description": "Vector and matrix tools",
+  "version": "0.0.0",
+  "repository": {
+    "type":"git",
+    "url": "git://github.com/ashnur/vatrix.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ashnur/vatrix/issues"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test/*.js"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": "*",
+    "express.js": "*"
+  },
+  "author": "ashnur",
+  "license": "DAFUQ"
+}
