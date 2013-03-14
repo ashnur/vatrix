@@ -73,5 +73,28 @@ describe("vatrix", function(){
                     .eql(3*5*7*11*13)
             })
         })
+
+        describe("matrix transpose", function(){
+            it("should return the dot product of the input vectors", function(){
+                expect(vatrix.mt([[1,3,5],[7,11,13]])).to
+                    .eql([[1,7],[3,11],[5,13]])
+            })
+        })
+
+        describe("matrix multiplication", function(){
+            it("should return the result matrix", function(){
+                expect(vatrix.mm([[1,3],[5,7]], [[2,4],[6,8]])).to
+                    .eql([[20,28],[52,76]])
+            })
+            it("should return the result matrix", function(){
+                expect(vatrix.mm([[2,3,4],[5,6,7]], [[1,8],[9,2],[3,4]])).to
+                    .eql([[41,38],[80,80]])
+            })
+            it("should return the result matrix", function(){
+                expect(vatrix.mm([[1,3],[5,7],[11,13]],[[17,19,23],[29,31,37]])).to
+                    .eql([[104,112,134],[288,312,374],[564,612,734]])
+            })
+
+        })
     })
 })
