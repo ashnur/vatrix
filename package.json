@@ -14,7 +14,8 @@
     "test": "mocha test/*.js"
   },
   "dependencies": {
-    "zippy": "0.0.3"
+    "zippy": "0.0.3",
+    "rationals": "0.0.3"
   },
   "devDependencies": {
     "mocha": "*",
