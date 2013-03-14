@@ -82,6 +82,12 @@ describe("vatrix", function(){
         })
 
         describe("matrix multiplication", function(){
+            it("should return a vector ", function(){
+                expect(vatrix.mm([[15,25],[42,69]], [2,4])).to.eql([130,360])
+            })
+            it("should return a vector ", function(){
+                expect(vatrix.mm([2,4], [[15,25],[42,69]])).to.eql([198,326])
+            })
             it("should return the result matrix", function(){
                 expect(vatrix.mm([[1,3],[5,7]], [[2,4],[6,8]])).to
                     .eql([[20,28],[52,76]])
@@ -94,7 +100,10 @@ describe("vatrix", function(){
                 expect(vatrix.mm([[1,3],[5,7],[11,13]],[[17,19,23],[29,31,37]])).to
                     .eql([[104,112,134],[288,312,374],[564,612,734]])
             })
-
+            it("should return the result matrix", function(){
+                expect(vatrix.mm([[1,3],[5,7],[11,13]],[[17,19,23],[29,31,37]],[[1,2],[3,4],[4,6]])).to
+                    .eql([[4*244,4*365],[4*680,4*1017],[4*1334,4*1995]])
+            })
         })
     })
 })
