@@ -74,6 +74,38 @@ describe("vatrix", function(){
             })
         })
 
+        describe("matrix addition", function(){
+            it("should add values of the same indeces together", function(){
+                expect(vatrix.ma([[1,2],[3,4]],[[9,8],[7,6]])).to
+                    .eql([[10,10],[10,10]])
+            })
+            it("should add values of the same indeces together", function(){
+                expect(vatrix.ma([[1,2],[3,4]]
+                                ,[[11,12],[21,22],[31,32]]
+                                ,[[9,8],[7,6]]
+                                ,[[19,29,39],[49,59,69]]
+                                ,[[60,49,61],[20,9,31],[69,68,100]]
+                                )).to
+                    .eql([[100,100,100],[100,100,100],[100,100,100]])
+            })
+        })
+
+        describe("matrix addition", function(){
+            it("should add values of the same indeces together", function(){
+                expect(vatrix.ms([[1,2],[3,4]],[[9,8],[7,6]])).to
+                    .eql([[-8,-6],[-4,-2]])
+            })
+            it("should add values of the same indeces together", function(){
+                expect(vatrix.ms([[1,2],[3,4]]
+                                ,[[11,12],[21,22],[31,32]]
+                                ,[[9,8],[7,6]]
+                                ,[[19,29,39],[49,59,69]]
+                                ,[[60,49,61],[20,9,31],[69,68,100]]
+                                )).to
+                    .eql([[-98,-96,-100],[-94,-92,-100],[-100,-100,-100]])
+            })
+        })
+
         describe("matrix transpose", function(){
             it("should return the dot product of the input vectors", function(){
                 expect(vatrix.mt([[1,3,5],[7,11,13]])).to
