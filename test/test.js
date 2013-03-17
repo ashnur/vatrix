@@ -139,6 +139,12 @@ describe('vatrix', function(){
         })
         describe('describe matrix LU decomposition', function(){
             it('should return the resultant matrices from the LU decomposition in order P,L,U', function(){
+                expect(vatrix.mlu([[15,75],[60,24]])).to
+                    .eql([
+                             [[1,0],[0,1]]
+                            ,[[1,0],[4,1]]
+                            ,[[15,75],[0,-276]]
+                         ])
                 expect(vatrix.mlu([[1,3,5],[2,4,7],[1,1,0]])).to
                     .eql([
                              [[0,1,0],[1,0,0],[0,0,1]]
