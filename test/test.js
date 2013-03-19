@@ -90,7 +90,7 @@ describe('vatrix', function(){
             })
         })
 
-        describe('matrix addition', function(){
+        describe('matrix subtraction', function(){
             it('should add values of the same indeces together', function(){
                 expect(vatrix.ms([[1,2],[3,4]],[[9,8],[7,6]])).to
                     .eql([[-8,-6],[-4,-2]])
@@ -106,6 +106,11 @@ describe('vatrix', function(){
             })
         })
 
+        describe('matrix multiplication with scalar value', function(){
+            it('should multiply all the coefficients', function(){
+                expect(vatrix.msm([[1,2],[3,4]],3)).to.eql([[3,6],[9,12]])
+            })
+        })
         describe('matrix transpose', function(){
             it('should return the dot product of the input vectors', function(){
                 expect(vatrix.mt([[1,3,5],[7,11,13]])).to
@@ -137,32 +142,12 @@ describe('vatrix', function(){
                     .eql([[4*244,4*365],[4*680,4*1017],[4*1334,4*1995]])
             })
         })
-        describe('describe matrix LU decomposition', function(){
-            it('should return the resultant matrices from the LU decomposition in order P,L,U', function(){
-                expect(vatrix.mlu([[15,75],[60,24]])).to
-                    .eql([
-                             [[1,0],[0,1]]
-                            ,[[1,0],[4,1]]
-                            ,[[15,75],[0,-276]]
-                         ])
-                expect(vatrix.mlu([[5,30,82],[15,75,2],[45,90,6]])).to
-                    .eql([
-                             [[1,0,0],[0,1,0],[0,0,1]]
-                            ,[[1,0,0],[3,1,0],[9,12,1]]
-                            ,[[5,30,82],[0,-15,-244],[0,0,2196]]
-                         ])
-                expect(vatrix.mlu([[1,3,5],[2,4,7],[1,1,0]])).to
-                    .eql([
-                             [[0,1,0],[1,0,0],[0,0,1]]
-                            ,[[1,0,0],[3,1,0],[9,12,1]]
-                            ,[[5,30,82],[0,-15,-244],[0,0,2196]]
-                         ])
-                expect(vatrix.mlu([[15,75,2],[5,30,82],[45,90,6]])).to
-                    .eql([
-                             [[0,1,0],[1,0,0],[0,0,1]]
-                            ,[[1,0,0],[3,1,0],[9,12,1]]
-                            ,[[5,30,82],[0,-15,-244],[0,0,2196]]
-                         ])
+        describe('matrix determinant', function(){
+            it('should return the determinant', function(){
+                expect(vatrix.md([[15,75],[60,24]])).to.eql(24/75)
+                expect(vatrix.md([[15,75,2],[5,30,82],[45,90,6]])).to.eql(164700)
+                expect(vatrix.md([[5,30,82],[15,75,2],[45,90,6]])).to.eql(-164700)
+                expect(vatrix.md([[1,3,5],[2,4,7],[1,1,0]])).to.eql(4)
             })
         })
     })
