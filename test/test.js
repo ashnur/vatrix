@@ -39,23 +39,11 @@ describe('vatrix', function(){
                 expect(vatrix.va([1,3,5,7,11,13],[2,4,6,8,12,14])).to
                     .eql([3,7,11,15,23,27])
             })
-            it('missing or undefined values are considered zero', function(){
-                expect(vatrix.va([1,3,5,7],[12,14])).to
-                    .eql([13,17,5,7])
-                expect(vatrix.va([1,3,5,7],[,,12,14])).to
-                    .eql([1,3,17,21])
-            })
         })
         describe('vector subtraction', function(){
             it('should add values of the same indeces together', function(){
                 expect(vatrix.vs([1,3,5,7,11,13],[2,4,6,8,12,14])).to
                     .eql([-1,-1,-1,-1,-1,-1])
-            })
-            it('missing or undefined values are considered zero', function(){
-                expect(vatrix.vs([1,3,5,7],[12,14])).to
-                    .eql([-11,-11,5,7])
-                expect(vatrix.vs([1,3,5,7],[,,12,14])).to
-                    .eql([1,3,-7,-7])
             })
         })
         describe('dot product', function(){
