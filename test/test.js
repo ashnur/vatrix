@@ -132,6 +132,7 @@ describe('vatrix', function(){
         })
         describe('matrix determinant', function(){
             it('should return the determinant', function(){
+                expect(vatrix.md([[3,0,5],[0,0,4],[0,9,3]])).to.eql(-108)
                 expect(vatrix.md([[15,75],[60,24]])).to.eql(-4140)
                 expect(vatrix.md([[15,75,2],[5,30,82],[45,90,6]])).to.eql(164700)
                 expect(vatrix.md([[5,30,82],[15,75,2],[45,90,6]])).to.eql(-164700)
