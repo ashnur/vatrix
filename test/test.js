@@ -1,4 +1,5 @@
-describe('vatrix', function(){
+void function(root){
+    'use strict'
     var vatrix = require('../')
         , expect = require('expect.js')
         , rat = require('rationals')
@@ -191,4 +192,4 @@ describe('vatrix', function(){
             })
         })
     })
-})
+}(this)

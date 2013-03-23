@@ -13,6 +13,9 @@ inspiration [WildLinAlg26: Change of basis and Taylor coefficient vectors](http:
 There isn't a good, performant vectorn, matrixn library for javascript. And I need it.
 There is of course [matrixjs](https://npmjs.org/package/matrixjs), but to be hones I do not like to much recursive implementations and it uses floats, which I am not a fan of.
 
+# Support
+[![browser support](http://ci.testling.com/ashnur/vatrix.png)](http://ci.testling.com/ashnur/vatrix)
+
 ## Example
 
 The goal is to have a conviently usable general vector tool. This means that some of the functions can take arguments with various types.

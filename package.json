@@ -14,12 +14,19 @@
     "test": "mocha test/*.js"
   },
   "dependencies": {
-    "zippy": "0.0.3",
     "rationals": "0.0.3"
   },
   "devDependencies": {
-    "mocha": "*",
-    "expect.js": "*"
+      "mocha": "*",
+      "expect.js": "*"
+  },
+  "testling": {
+    "browsers": [
+        "ie6", "ie7", "ie8", "ie9", "ie10",
+        "firefox/18", "firefox/nightly", "chrome/24", "chrome/canary", "opera/12", "safari/5.1"
+    ],
+    "harness" : "mocha",
+    "files": "test/*.js"
   },
   "author": "ashnur",
   "license": "DAFUQ"
