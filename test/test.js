@@ -2,7 +2,6 @@ void function(root){
     'use strict'
     var vatrix = require('../')
         , expect = require('expect.js')
-        , rat = require('rationals')
         ;
 
     function times(nr, fun) {
@@ -34,20 +33,32 @@ void function(root){
         return arr
     }
 
-    function isUpperTriangular(matrix){
+    function isIdentity(matrix){
         var result = true;
-        matrix.forEach(function(row_index){
-            times(row_index, function(column_index){
-                if ( matrix[row_index][column_index] !== 0 ) {
-                    result = false
-                }
-            })
+        matrix.forEach(function(row, row_index){
+            if ( row_index < row.length && row[row_index] !== 1 ) {
+                result = false
+            }
         })
         return result
     }
 
     function isLowerTriangular(matrix){
-        return isUpperTriangular(vatrix.mt(matrix))
+        var result = true;
+        matrix.forEach(function(row, row_index){
+            if ( row_index < row.length ) {
+                times(row_index, function(column_index){
+                    if ( row[column_index] !== 0 ) {
+                        result = false
+                    }
+                })
+            }
+        })
+        return result
+    }
+
+    function isUpperTriangular(matrix){
+        return isLowerTriangular(vatrix.mt(matrix))
     }
 
     function isDiagonal(matrix){
@@ -162,15 +173,7 @@ void function(root){
                     .eql([[4*244,4*365],[4*680,4*1017],[4*1334,4*1995]])
             })
         })
-        describe('matrix determinant', function(){
-            it('should return the determinant', function(){
-                expect(vatrix.md([[3,0,5],[0,0,4],[0,9,3]])).to.eql(-108)
-                expect(vatrix.md([[15,75],[60,24]])).to.eql(-4140)
-                expect(vatrix.md([[15,75,2],[5,30,82],[45,90,6]])).to.eql(164700)
-                expect(vatrix.md([[5,30,82],[15,75,2],[45,90,6]])).to.eql(-164700)
-                expect(vatrix.md([[1,3,5],[2,4,7],[1,1,0]])).to.eql(4)
-            })
-        })
+
         describe('matrix echelon form', function(){
             function test(matrix){
                 var e = vatrix.me(matrix);
@@ -178,9 +181,9 @@ void function(root){
                 //console.log(drawMatrix(matrix))
                 //console.log('e echelon ------------------')
                 //console.log(drawMatrix(e[0]))
-                //console.log(' augmentation ------------------')
+                //console.log('augmentation ------------------')
                 //console.log(drawMatrix(e[2]))
-                expect(isLowerTriangular(e[0]) && isUpperTriangular(e[2])).to.equal(true)
+                expect(isLowerTriangular(e[0])).to.equal(true)
             }
             it('should return an upper a lower triangular matrix, and a sign change', function(){
                 test([[3,7],[14,22]])
@@ -190,6 +193,39 @@ void function(root){
                 test([[32, 551, 23, 111],[391, 12, 122, 123],[2, 332, 13, 832]])
                 test([[32, 551, 23], [111, 391, 12], [122, 123, 2], [332, 13, 832]])
             })
+        })
+
+        describe('matrix determinant', function(){
+            it('should return the determinant', function(){
+                expect(vatrix.md([[3,0,5],[0,0,4],[0,9,3]])).to.eql(-108)
+                expect(vatrix.md([[15,75],[60,24]])).to.eql(-4140)
+                expect(vatrix.md([[15,75,2],[5,30,82],[45,90,6]])).to.eql(164700)
+                expect(vatrix.md([[5,30,82],[15,75,2],[45,90,6]])).to.eql(-164700)
+                expect(vatrix.md([[1,3,5],[2,4,7],[1,1,0]])).to.eql(4)
+            })
+        })
+
+        describe('matrix row reduce', function(){
+
+            function test(matrix){
+                var e = vatrix.mrr(matrix);
+                //console.log('ze matrix ------------------')
+                //console.log(drawMatrix(matrix))
+                //console.log('e echelon ------------------')
+                //console.log(drawMatrix(e[0]))
+                //console.log('augmentation ------------------')
+                //console.log(drawMatrix(e[1]))
+                expect(isDiagonal(e[0], true)).to.equal(true)
+            }
+            it('should return an the identity and the inverse matrices of the input', function(){
+                test([[3,7],[14,22]])
+                test([[32, 551, 23],[391, 122, 123],[332, 13, 832]])
+                test([[0,2],[1,0],[3,4]])
+                test([[1,2],[1,-1],[3,4]])
+                test([[32, 551, 23, 111],[391, 12, 122, 123],[2, 332, 13, 832]])
+                test([[32, 551, 23], [111, 391, 12], [122, 123, 2], [332, 13, 832]])
+            })
+
         })
     })
 }(this)
