@@ -1,33 +1,54 @@
 {
   "name": "vatrix",
-  "description": "Vector and matrix tools",
-  "version": "0.0.2",
+  "description": "matrix tools",
+  "version": "0.0.3",
+  "scripts": {
+    "test": "mocha",
+    "prepublish": "npm test"
+  },
+  "dependencies": {
+    "rationals": "~0.0.14",
+    "totemizer": "~0.0.5",
+    "momentum": "~0.0.11"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "expect.js": "*"
+  },
   "repository": {
     "type": "git",
-    "url": "git://github.com/ashnur/vatrix.git"
+    "url": "https://github.com/ashnur/vatrix.git"
   },
   "bugs": {
     "url": "https://github.com/ashnur/vatrix/issues"
   },
   "main": "index.js",
-  "scripts": {
-    "test": "mocha test/*.js"
-  },
-  "dependencies": {
-    "rationals": "0.0.3"
-  },
-  "devDependencies": {
-      "mocha": "*",
-      "expect.js": "*"
-  },
   "testling": {
+    "files": "test/*.js",
     "browsers": [
-        "ie6", "ie7", "ie8", "ie9", "ie10",
-        "firefox/18", "firefox/nightly", "chrome/24", "chrome/canary", "opera/12", "safari/5.1"
+      "iexplore/6.0",
+      "iexplore/7.0",
+      "iexplore/8.0",
+      "iexplore/9.0",
+      "iexplore/10.0",
+      "chrome/4.0",
+      "chrome/23.0",
+      "firefox/3.0",
+      "firefox/17.0",
+      "opera/10.0",
+      "opera/12.0",
+      "safari/5.0.5",
+      "safari/5.1"
     ],
-    "harness" : "mocha",
-    "files": "test/*.js"
+    "harness": "mocha"
   },
+  "keywords": [
+    "vatrix",
+    "vatrices",
+    "matrix",
+    "matrices"
+  ],
   "author": "ashnur",
-  "license": "DAFUQ"
+  "license": "DAFUQ",
+  "readmeFilename": "README.md"
 }
