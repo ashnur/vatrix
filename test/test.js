@@ -86,13 +86,13 @@ describe('vectors', function(){
 
     describe('matrix echelon form', function(){
         function test(matrix){
-            console.log('ze matrix ------------------')
-            console.log(vatrix.drawMatrix(matrix))
+            //console.log('ze matrix ------------------')
+            //console.log(vatrix.drawMatrix(matrix))
             var e = vatrix.me(vatrix(matrix));
-            console.log('e echelon ------------------')
-            console.log(vatrix.drawMatrix(e[0]))
-            console.log('augmentation ------------------')
-            console.log(vatrix.drawMatrix(e[2]))
+            //console.log('e echelon ------------------')
+            //console.log(vatrix.drawMatrix(e[0]))
+            //console.log('augmentation ------------------')
+            //console.log(vatrix.drawMatrix(e[2]))
             expect(vatrix.isUpperTriangular(e[0])).to.equal(true)
         }
         it('should return an upper triangular matrix, and a sign change', function(){
@@ -117,22 +117,42 @@ describe('vectors', function(){
 
     describe('matrix row reduce', function(){
 
-        function test(matrix){
-            var e = vatrix.mrr(vatrix(matrix));
+        function test(matrix, expectation){
             //console.log('ze matrix ------------------')
-            //console.log(drawMatrix(matrix))
+            //console.log(vatrix.drawMatrix(matrix))
+             var e = vatrix.mrr(vatrix(matrix));
             //console.log('e echelon ------------------')
-            //console.log(drawMatrix(e[0]))
+            //console.log(vatrix.drawMatrix(e[0]))
             //console.log('augmentation ------------------')
-            //console.log(drawMatrix(e[1]))
-            expect(vatrix.isDiagonal(e[0], true)).to.equal(true)
+            //console.log(vatrix.drawMatrix(e[1]))
+            console.log('z',vatrix.drawMatrix( vatrix.mm( e[1] , e[0])))
+            expect(vatrix.isDiagonal(e[0])).to.eql(true)
+            expect(e[1]).to.eql(vatrix(expectation))
         }
         it('should return an the identity and the inverse matrices of the input', function(){
-            test([[3,7],[14,22]])
-            test([[32, 551, 23],[391, 122, 123],[332, 13, 832]])
-            test([[0,2],[1,0],[3,4]])
-            test([[1,2],[1,-1],[3,4]])
-            test([[32, 551, 23, 111],[391, 12, 122, 123],[2, 332, 13, 832]])
+            test([[3,7],[14,22]],[[r(-11,16),r(7,32)],[r(7,16),r(-3,32)]])
+            test([[1,2],[1,-1],[3,4]]
+                ,[[r(1,3),r(2,3),r(0)],[r(1,3),r(-1,3),r(0)],[r(-7,3),r(-2,3),r(1)]])
+            test([[0,2],[1,0],[3,4]]
+                ,[[r(0),r(1),r(0)],[r(1,2),r(0),r(0)],[r(-2),r(-3),r(1)]])
+
+            test([[1,-1, 3],[2,1,-1]],[[r(1,3),r(1,3)],[r(-2,3),r(1,3)]])
+            console.log(vatrix.drawMatrix(
+                    vatrix.mm(
+                        vatrix([[32, 551, 23],[391, 122, 123],[332, 13, 832]])
+                        ,vatrix([
+                [r(-99905,154363999),r(458133,154363999),r(-64967,154363999)]
+                ,[r(284476,154363999),r(-18988,154363999),r(-5057,154363999)]
+                ,[r(35421,154363999),r(-182516,154363999),r(211537,154363999)]
+                ])
+                        )
+                    ))
+            test([[32, 551, 23],[391, 122, 123],[332, 13, 832]],
+                [
+                [r(-99905,154363999),r(458133,154363999),r(-64967,154363999)]
+                ,[r(284476,154363999),r(-18988,154363999),r(-5057,154363999)]
+                ,[r(35421,154363999),r(-182516,154363999),r(211537,154363999)]
+                ])
             test([[32, 551, 23], [111, 391, 12], [122, 123, 2], [332, 13, 832]])
         })
 

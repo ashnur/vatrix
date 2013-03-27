@@ -37,7 +37,7 @@ void function(root){
     }
 
     function is_diagonal(matrix){
-        return is_lower_triangular(matrix) && isUpperTriangular(matrix)
+        return is_lower_triangular(matrix) && is_upper_triangular(matrix)
     }
 
 
@@ -131,16 +131,18 @@ void function(root){
     }
 
     function pivotize(matrix){
-        var size = matrix.length < matrix[0].length ? matrix.length : matrix[0].length
-            , P = vatrix(identity_matrix(matrix.length > matrix[0].length ? matrix.length : matrix[0].length))
+        var width = matrix[0].length
+            , length = matrix.length
+            , P = vatrix(identity_matrix(length))
             , sign = 1
             , row_index
             , search
+
             ;
 
-        for ( row_index = 0; row_index<size; row_index ++ ) {
+        for ( row_index = 0; row_index<length; row_index ++ ) {
             if ( matrix[row_index][row_index] === zero ) {
-                for ( search = 0; search < size; search ++ ) {
+                for ( search = 0; search < length; search ++ ) {
                     if ( search !== row_index
                         && matrix[search][row_index] !== zero
                         && matrix[row_index][search] !== zero
@@ -158,7 +160,7 @@ void function(root){
         return [P, r(sign)]
     }
 
-    function echelon(matrix){
+    function row_echelon(matrix){
 
         var width = matrix[0].length
             , height = matrix.length
@@ -202,25 +204,45 @@ void function(root){
 
         if ( matrix.length != matrix[0].length) throw new Error ('not a square matrix')
 
-        var echelon = echelon(matrix);
+        var echelon = row_echelon(matrix);
 
         return u.times(echelon[0].length, function(row_index){
             return echelon[0][row_index][row_index]
-        }).reduce(multiply) / echelon[1]
+        }).reduce(r.mul).per(echelon[1])
 
     }
 
     function fully_reduce(matrix){
-        var echelon_result = echelon(matrix)
+        var echelon_result = row_echelon(matrix)
             , echelon = echelon_result[0]
             , change = echelon_result[1]
             , augmentation = echelon_result[2]
+            , height = echelon.length
+            , width = echelon[0].length
+            , size = width < height ? width : height
+            , column_index = size
+            , row_index = column_index-1
+            , target
             ;
 
-        echelon.forEach(function(row, row_index){
-            var pivot = row[row_index];
-
+        // make the diagonals 1
+        u.times(width < height ? width : height, function(row_index){
+            var row = echelon[row_index];
+            echelon[row_index] = m.disperse(echelon[row_index], row[row_index])
+            augmentation[row_index] = m.disperse(augmentation[row_index], row[row_index])
         })
+
+        while ( column_index -- > 0 ) {
+            row_index = column_index
+            while ( row_index -- > 0 ) {
+                target = echelon[row_index][column_index]
+                echelon[row_index] = m.sub(echelon[row_index], m.scale(echelon[column_index], target))
+                augmentation[row_index] = m.sub(augmentation[row_index], m.scale(augmentation[column_index], target))
+            }
+        }
+        console.log('----------------------')
+
+
         return [echelon, augmentation]
     }
 
@@ -246,8 +268,8 @@ void function(root){
     vatrix.matrixMultiplication = multiplication
     vatrix.mm = multiplication
 
-    vatrix.matrixRowEchelon = echelon
-    vatrix.me = echelon
+    vatrix.matrixRowEchelon = row_echelon
+    vatrix.me = row_echelon
 
     vatrix.matrixRowReduce = fully_reduce
     vatrix.mrr = fully_reduce
