@@ -5,6 +5,7 @@ var vatrix = require('../')
     , u = require('totemizer')
     , m = vatrix.m
     , r = vatrix.m.r
+    , d = vatrix.drawMatrix
     ;
 
 describe('vectors', function(){
@@ -87,12 +88,12 @@ describe('vectors', function(){
     describe('matrix echelon form', function(){
         function test(matrix){
             //console.log('ze matrix ------------------')
-            //console.log(vatrix.drawMatrix(matrix))
+            //console.log(d(matrix))
             var e = vatrix.me(vatrix(matrix));
             //console.log('e echelon ------------------')
-            //console.log(vatrix.drawMatrix(e[0]))
+            //console.log(d(e[0]))
             //console.log('augmentation ------------------')
-            //console.log(vatrix.drawMatrix(e[2]))
+            //console.log(d(e[2]))
             expect(vatrix.isUpperTriangular(e[0])).to.equal(true)
         }
         it('should return an upper triangular matrix, and a sign change', function(){
@@ -118,41 +119,49 @@ describe('vectors', function(){
     describe('matrix row reduce', function(){
 
         function test(matrix, expectation){
-            //console.log('ze matrix ------------------')
-            //console.log(vatrix.drawMatrix(matrix))
-             var e = vatrix.mrr(vatrix(matrix));
-            //console.log('e echelon ------------------')
-            //console.log(vatrix.drawMatrix(e[0]))
-            //console.log('augmentation ------------------')
-            //console.log(vatrix.drawMatrix(e[1]))
-            console.log('z',vatrix.drawMatrix( vatrix.mm( e[1] , e[0])))
-            expect(vatrix.isDiagonal(e[0])).to.eql(true)
-            expect(e[1]).to.eql(vatrix(expectation))
+            matrix = vatrix(matrix)
+            // console.log('original matrix ------------------')
+            // console.log(d(matrix))
+            var e = vatrix.mrr(matrix)
+                , identity = e[0]
+                , inverse  = e[1]
+                , diagonal
+                ;
+
+            if ( identity.length === identity[0].length ) {
+                //console.log('should be the identity ------------------')
+                //console.log(d(identity))
+                expect(vatrix.isIdentity(identity)).to.equal(true)
+            }
+            //console.log('should be the inverse ------------------')
+            //console.log(d(inverse))
+
+            if ( expectation ) {
+                //console.log('the inverse ------------------')
+                //console.log(d(expectation))
+                expect(inverse).to.eql(expectation)
+            }
+
+            diagonal = vatrix.mm( inverse, matrix)
+            //console.log('original * inverse should = identity ------------------')
+            //console.log(d(diagonal))
+
+            expect(vatrix.isDiagonal(diagonal)).to.be(true)
+
+
         }
-        it('should return an the identity and the inverse matrices of the input', function(){
+        it('should return an identity and the inverse matrix of the input', function(){
             test([[3,7],[14,22]],[[r(-11,16),r(7,32)],[r(7,16),r(-3,32)]])
-            test([[1,2],[1,-1],[3,4]]
-                ,[[r(1,3),r(2,3),r(0)],[r(1,3),r(-1,3),r(0)],[r(-7,3),r(-2,3),r(1)]])
-            test([[0,2],[1,0],[3,4]]
-                ,[[r(0),r(1),r(0)],[r(1,2),r(0),r(0)],[r(-2),r(-3),r(1)]])
+            test([[1,2],[1,-1],[3,4]])
+            test([[0,2],[1,0],[3,4]])
 
             test([[1,-1, 3],[2,1,-1]],[[r(1,3),r(1,3)],[r(-2,3),r(1,3)]])
-            console.log(vatrix.drawMatrix(
-                    vatrix.mm(
-                        vatrix([[32, 551, 23],[391, 122, 123],[332, 13, 832]])
-                        ,vatrix([
-                [r(-99905,154363999),r(458133,154363999),r(-64967,154363999)]
-                ,[r(284476,154363999),r(-18988,154363999),r(-5057,154363999)]
-                ,[r(35421,154363999),r(-182516,154363999),r(211537,154363999)]
-                ])
-                        )
-                    ))
             test([[32, 551, 23],[391, 122, 123],[332, 13, 832]],
-                [
-                [r(-99905,154363999),r(458133,154363999),r(-64967,154363999)]
-                ,[r(284476,154363999),r(-18988,154363999),r(-5057,154363999)]
-                ,[r(35421,154363999),r(-182516,154363999),r(211537,154363999)]
-                ])
+                vatrix.msd(vatrix([
+                    [r(-99905),r(458133),r(-64967)]
+                    ,[r(284476),r(-18988),r(-5057)]
+                    ,[r(35421),r(-182516),r(211537)]
+                ]), r(154363999) ))
             test([[32, 551, 23], [111, 391, 12], [122, 123, 2], [332, 13, 832]])
         })
 

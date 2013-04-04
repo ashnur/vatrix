@@ -7,9 +7,8 @@
     "prepublish": "npm test"
   },
   "dependencies": {
-    "rationals": "~0.0.14",
     "totemizer": "~0.0.5",
-    "momentum": "~0.0.11"
+    "momentum": "~0.1.2"
   },
   "devDependencies": {
     "mocha": "*",

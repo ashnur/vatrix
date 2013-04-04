@@ -9,13 +9,11 @@ void function(root){
         ;
 
     function is_identity(matrix){
-        var result = true;
-        matrix.forEach(function(row, row_index){
-            if ( row_index < row.length && row[row_index] !== one )  {
-                result = false
-            }
+        return matrix.length === matrix[0].length && matrix.every(function(row, row_index){
+            return row.every(function(elem, column_index){
+                return row_index === column_index ? elem === one : elem === zero
+            })
         })
-        return result
     }
 
     function is_upper_triangular(matrix){
@@ -74,9 +72,7 @@ void function(root){
         return Ø
     }
 
-    function gcd(matrix){
-        return m.gcd(matrix.map(m.gcd))
-    }
+    function gcd(matrix){ return m.gcd(matrix.map(m.gcd)) }
 
     function addition(){
         return u.slice(arguments).reduce(function(p, c, i){
@@ -89,7 +85,7 @@ void function(root){
     }
 
     function scalar_division(matrix, scalar){
-        return matrix.map(function(vector){ return scalar_division(vector, scalar) })
+        return matrix.map(function(vector){ return m.disperse(vector, scalar) })
     }
 
     function subtraction(){
@@ -168,6 +164,8 @@ void function(root){
             , augmentation = pivotize_result[0]
             , change = pivotize_result[1]
             , echelon = multiplication(augmentation, matrix)
+            , scalar
+            , gcd
             ;
 
 
@@ -177,24 +175,14 @@ void function(root){
 
                 pivot = echelon[column_index][column_index]
                 lead = echelon[row_index][column_index]
-//                multiple = r.lcm(pivot, lead)
+                scalar = lead.per(pivot)
 
-//                if ( multiple ) {
-//                    echelon[column_index] = m.scale(echelon[column_index], multiple.per(pivot))
-//                    augmentation[column_index] = m.scale(augmentation[column_index], multiple.per(pivot))
-                    echelon[row_index] = m.sub(echelon[row_index], m.scale(echelon[column_index],  lead.per(pivot)))
-                    augmentation[row_index] = m.sub(augmentation[row_index], m.scale(augmentation[column_index],  lead.per(pivot)))
+                echelon[row_index] = m.sub(echelon[row_index]
+                    , m.scale(echelon[column_index],  scalar))
 
-//
-//                    echelon[row_index] = m.scale(echelon[row_index], multiple.per(lead))
-//                    augmentation[row_index] = m.scale(augmentation[row_index], multiple.per(lead))
-//
-//                    change *= (multiple.per(pivot) * multiple.per(lead))
-//
-//                    pivot_row = echelon[column_index]
-//                    echelon[row_index] = m.sub(echelon[row_index], pivot_row)
-//                    augmentation[row_index] = m.sub(augmentation[row_index], pivot_row)
-//                }
+                augmentation[row_index] = m.sub(augmentation[row_index]
+                    , m.scale(augmentation[column_index],  scalar))
+
             })
         })
         return [echelon, change, augmentation]
@@ -225,11 +213,12 @@ void function(root){
             , target
             ;
 
-        // make the diagonals 1
+        // make the diagonal 1
         u.times(width < height ? width : height, function(row_index){
             var row = echelon[row_index];
             echelon[row_index] = m.disperse(echelon[row_index], row[row_index])
             augmentation[row_index] = m.disperse(augmentation[row_index], row[row_index])
+            change = change.per(row[row_index])
         })
 
         while ( column_index -- > 0 ) {
@@ -240,44 +229,47 @@ void function(root){
                 augmentation[row_index] = m.sub(augmentation[row_index], m.scale(augmentation[column_index], target))
             }
         }
-        console.log('----------------------')
-
 
         return [echelon, augmentation]
+
     }
 
     function vatrix(arr){ return arr.map(m) }
 
     vatrix.m = m
 
-    vatrix.matrixAddition = addition
+    vatrix.add = addition
     vatrix.ma = addition
 
-    vatrix.matrixSubtraction = subtraction
+    vatrix.subtract = subtraction
     vatrix.ms = subtraction
 
-    vatrix.matrixScalarMultiplication = scalar_multiplication
+    vatrix.scalarMultiplication = scalar_multiplication
     vatrix.msm = scalar_multiplication
 
-    vatrix.matrixTranspose = transpose
+    vatrix.scalarDivision = scalar_division
+    vatrix.msd = scalar_division
+
+    vatrix.transpose = transpose
     vatrix.mt = transpose
 
-    vatrix.matrixDeterminant = determinant
+    vatrix.determinant = determinant
     vatrix.md = determinant
 
-    vatrix.matrixMultiplication = multiplication
+    vatrix.multiplication = multiplication
     vatrix.mm = multiplication
 
-    vatrix.matrixRowEchelon = row_echelon
+    vatrix.rowEchelon = row_echelon
     vatrix.me = row_echelon
 
-    vatrix.matrixRowReduce = fully_reduce
+    vatrix.rowReduce = fully_reduce
     vatrix.mrr = fully_reduce
 
     vatrix.drawMatrix = draw_matrix
     vatrix.isLowerTriangular = is_lower_triangular
     vatrix.isUpperTriangular = is_upper_triangular
     vatrix.isDiagonal = is_diagonal
+    vatrix.isIdentity = is_identity
 
     if ( module !== undefined && module.exports ) {
         module.exports = vatrix
