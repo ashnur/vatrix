@@ -234,6 +234,9 @@ void function(root){
 
     }
 
+    function invert(matrix){
+    }
+
     function vatrix(arr){ return arr.map(m) }
 
     vatrix.m = m
