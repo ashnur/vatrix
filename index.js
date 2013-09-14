@@ -234,7 +234,15 @@ void function(root){
 
     }
 
-    function invert(matrix){
+    function spanning(matrix){
+        var size = Math.max(matrix.length, matrix[0].length)
+          , target = fully_reduce(matrix.filter(function(row, i){ return i < size })
+                            .map(function(row){
+                                return row.filter(function(col, i){
+                                    return i < size
+                                })
+                            }))
+        return is_identity(target[0])
     }
 
     function vatrix(arr){ return arr.map(m) }
@@ -268,6 +276,7 @@ void function(root){
     vatrix.rowReduce = fully_reduce
     vatrix.mrr = fully_reduce
 
+    vatrix.isSpanning = spanning
     vatrix.drawMatrix = draw_matrix
     vatrix.isLowerTriangular = is_lower_triangular
     vatrix.isUpperTriangular = is_upper_triangular

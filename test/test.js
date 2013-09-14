@@ -163,7 +163,15 @@ describe('vectors', function(){
                     ,[r(35421),r(-182516),r(211537)]
                 ]), r(154363999) ))
             test([[32, 551, 23], [111, 391, 12], [122, 123, 2], [332, 13, 832]])
+            test([[2, 2, 2, 2], [2, -2, 2, -2]])
         })
 
+    })
+
+    describe('spanning set', function(){
+        it('returns true if the matrix is spanning', function(){
+            expect(vatrix.isSpanning(vatrix([[1,2,-1],[2,0,4],[-1,1,3]]))).to.be(true)
+            expect(vatrix.isSpanning(vatrix([[1,2,-1,3],[2,-1,8,1],[-3,4,17,1]]))).to.be(false)
+        })
     })
 })
