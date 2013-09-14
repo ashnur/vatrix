@@ -172,6 +172,13 @@ describe('vectors', function(){
         it('returns true if the matrix is spanning', function(){
             expect(vatrix.isSpanning(vatrix([[1,2,-1],[2,0,4],[-1,1,3]]))).to.be(true)
             expect(vatrix.isSpanning(vatrix([[1,2,-1,3],[2,-1,8,1],[-3,4,17,1]]))).to.be(false)
+            expect(vatrix.isSpanning(vatrix([[1,2,-1],[-1,1,0],[2,3,2]]))).to.be(true)
+        })
+    })
+    describe('linear dependece', function(){
+        it('returns true if the vectors are linearly dependent', function(){
+            expect(vatrix.linearlyDependent(vatrix([[1,2,-1],[-1,1,0],[2,3,2]]))).to.be(true)
+            expect(vatrix.linearlyDependent(vatrix([[1,0,0],[2,0,0],[3,5,0]]))).to.be(false)
         })
     })
 })

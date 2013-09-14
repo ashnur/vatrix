@@ -3,6 +3,7 @@ void function(root){
 
     var u = require('totemizer')
         , m = require('momentum')
+        , equal = require('deep-equal')
         , r = m.r
         , zero = r(0)
         , one = r(1)
@@ -245,6 +246,13 @@ void function(root){
         return is_identity(target[0])
     }
 
+    function linear_dependence(matrix){
+        var t = m.disperse(m(m.zero_vector(matrix[0].length)), zero)
+        return fully_reduce(matrix)[0].every(function(row){
+            return ! equal(t, row)
+        })
+    }
+
     function vatrix(arr){ return arr.map(m) }
 
     vatrix.m = m
@@ -277,6 +285,7 @@ void function(root){
     vatrix.mrr = fully_reduce
 
     vatrix.isSpanning = spanning
+    vatrix.linearlyDependent = linear_dependence
     vatrix.drawMatrix = draw_matrix
     vatrix.isLowerTriangular = is_lower_triangular
     vatrix.isUpperTriangular = is_upper_triangular
