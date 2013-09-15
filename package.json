@@ -1,7 +1,7 @@
 {
   "name": "vatrix",
   "description": "matrix tools",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "scripts": {
     "test": "mocha",
     "prepublish": "npm test"

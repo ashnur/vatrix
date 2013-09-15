@@ -163,7 +163,11 @@ describe('vectors', function(){
                     ,[r(35421),r(-182516),r(211537)]
                 ]), r(154363999) ))
             test([[32, 551, 23], [111, 391, 12], [122, 123, 2], [332, 13, 832]])
-            test([[2, 2, 2, 2], [2, -2, 2, -2]])
+        })
+
+        it('should return the MP pseudo inverse', function(){
+            expect(vatrix.pinv(vatrix([[2,-2],[4,2],[14,-2],[2,2]])))
+                .to.eql(vatrix.msd(vatrix([[-1,13,23,9],[-50,65,-20,60]]),r(390)))
         })
 
     })

@@ -191,7 +191,7 @@ void function(root){
 
     function determinant(matrix){
 
-        if ( matrix.length != matrix[0].length) throw new Error ('not a square matrix')
+        if ( matrix.length != matrix[0].length) return undefined
 
         var echelon = row_echelon(matrix);
 
@@ -253,6 +253,11 @@ void function(root){
         })
     }
 
+    function pseudo_inverse(matrix){
+        var t = transpose(matrix)
+        return multiplication(fully_reduce(multiplication(t, matrix))[1], t)
+    }
+
     function vatrix(arr){ return arr.map(m) }
 
     vatrix.m = m
@@ -283,6 +288,8 @@ void function(root){
 
     vatrix.rowReduce = fully_reduce
     vatrix.mrr = fully_reduce
+
+    vatrix.pinv = pseudo_inverse
 
     vatrix.isSpanning = spanning
     vatrix.linearlyDependent = linear_dependence
